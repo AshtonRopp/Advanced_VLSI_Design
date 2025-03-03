@@ -16,12 +16,9 @@ module Pipelined_FIR_tb;
         .dout(dout)
     );
 
-    // Clock generation: 100MHz clock (10ns period)
-    always #5 clk = ~clk;
-
     // Test signal generation
     integer i;
-    real freq = 0.05;  // Low-frequency sinusoid input
+    real freq = 2000;  // Low-frequency sinusoid input
     initial begin
         // Initialize signals
         clk = 0;
@@ -45,5 +42,9 @@ module Pipelined_FIR_tb;
         $dumpfile("Pipelined_FIR_tb.vcd");
         $dumpvars(0, Pipelined_FIR_tb);
     end
+
+    // Clock generation: 100MHz clock (10ns period)
+    always #5 clk = ~clk;
+
 
 endmodule

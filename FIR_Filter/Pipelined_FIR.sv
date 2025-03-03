@@ -9,7 +9,7 @@ module Pipelined_FIR (
 
     logic signed [15:0] delay_line [TAPS]; // Delay line for input samples
     logic signed [31:0] mult_out [TAPS];   // Multiplication results
-    logic signed [31:0] add_pipe [TAPS/2]; // Pipeline registers for accumulation
+    logic signed [31:0] acc_pipe [TAPS-1]; // Pipeline registers for accumulation
 
     localparam signed [15:0] coeffs [100] = '{
         27, -184, -225, -288, -310, -268, -166, -29, 100, 178,
@@ -45,27 +45,16 @@ module Pipelined_FIR (
         end
     end
 
-    // Pipelined accumulation (binary tree structure)
     always_ff @(posedge clk) begin
-        for (int i = 0; i < TAPS/2; i = i + 1) begin
-            add_pipe[i] <= mult_out[2*i] + mult_out[2*i+1];
+        acc_pipe[0] = mult_out[0];
+        for (int i = 1; i < TAPS; i = i + 1) begin
+            acc_pipe[i] <= acc_pipe[i-1] + mult_out[i];
         end
     end
 
-    generate
-        genvar j;
-        for (j = TAPS/4; j > 0; j = j / 2) begin : pipelined_sum
-            always_ff @(posedge clk) begin
-                for (int k = 0; k < j; k = k + 1) begin
-                    add_pipe[k] <= add_pipe[2*k] + add_pipe[2*k+1];
-                end
-            end
-        end
-    endgenerate
-
     // Final sum output
     always_ff @(posedge clk) begin
-        dout <= add_pipe[0];
+        dout <= acc_pipe[TAPS-2];
     end
 
 endmodule

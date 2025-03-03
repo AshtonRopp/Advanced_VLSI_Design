@@ -15,12 +15,16 @@ add wave -radix decimal sim:/Pipelined_FIR_tb/rst
 add wave -radix decimal sim:/Pipelined_FIR_tb/din
 add wave -radix decimal sim:/Pipelined_FIR_tb/dout
 
+add list sim:/Pipelined_FIR_tb/din sim:/Pipelined_FIR_tb/dout
+
 # Run the simulation for sufficient time
 run 10000ns
-
-# Save waveform
-write list fir_filter_output.txt sim:/Pipelined_FIR_tb/dout
 
 # Open the waveform window
 view wave
 wave zoom full
+
+# Save waveform
+write list fir_filter_output.txt
+# write list -noaddress -nobanner -novector -decimal fir_filter_output.txt -window sim:/Pipelined_FIR_tb/dout
+# write list fir_filter_output.txt sim:/Pipelined_FIR_tb/dout
