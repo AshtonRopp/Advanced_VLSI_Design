@@ -1,4 +1,5 @@
-# Advanced_VLSI_Design
+# Pipelined FIR Filter
+
 
 ## MATLAB Library Requirements
 - Signal Processing Toolbox

@@ -11,17 +11,34 @@ w = [1 10];  % Higher weight in stopband for better attenuation
 % Design the filter using Parks-McClellan algorithm
 b = firpm(N, f, a, w);
 
+% filterAnalyzer(b)
+
 word_length = 16;  % Total bits
 frac_bits = 15;    % Fractional bits
 
-% Convert to fixed-point (Q1.15 format)
-quantized_b = fi(b, 1, word_length, frac_bits);
+% Scale as close to 131071 without overflow
+L = floor(log2((2^(word_length-1)-1)/max(b)));  % Round towards zero to avoid overflow
+bsc = b*2^L;
 
-% Convert to integer representation (scaled to fit signed 16-bit)
-int_coeffs = int16(quantized_b * (2^frac_bits)); ;
+h = dfilt.dffir(bsc);
+h.Arithmetic = 'fixed';
+h.CoeffWordLength = 16;
 
-% Save quantized coefficients to csv
-writematrix(int_coeffs, 'quantized_coefficients.csv');
+fvtool(h)
 
-% Plot frequency response of unquantized filter
-fvtool(b, 1)
+
+% word_length = 16;  % Total bits
+% frac_bits = 15;    % Fractional bits
+% 
+% % Convert to fixed-point (Q1.15 format)
+% quantized_b = fi(b, 1, word_length, frac_bits);
+% 
+% % Convert to integer representation (scaled to fit signed 16-bit)
+% int_coeffs = int16(quantized_b * (2^frac_bits));
+% 
+% % Save quantized coefficients to csv
+% writematrix(int_coeffs, 'quantized_coefficients.csv');
+% 
+% % Plot frequency response of unquantized filter
+% % fvtool(b, 1)
+% filterAnalyzer(b, 1)
