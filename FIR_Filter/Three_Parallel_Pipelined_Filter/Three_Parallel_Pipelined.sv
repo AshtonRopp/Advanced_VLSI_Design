@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module Three_Parallel_Pipelined (
     input logic clk,               // Clock signal
     input logic rst,               // Reset signal

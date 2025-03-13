@@ -1,0 +1,47 @@
+Timing Report
+
+Slack (MET) :             21165.508ns  (required time - arrival time)
+  Source:                 acc_pipe_reg[101][63]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@10638.000ns period=21276.000ns})
+  Destination:            dout[63]
+                            (output port clocked by clk  {rise@0.000ns fall@10638.000ns period=21276.000ns})
+  Path Group:             clk
+  Path Type:              Max at Slow Process Corner
+  Requirement:            21276.000ns  (clk rise@21276.000ns - clk rise@0.000ns)
+  Data Path Delay:        6.093ns  (logic 2.781ns (45.647%)  route 3.312ns (54.353%))
+  Logic Levels:           1  (OBUF=1)
+  Output Delay:           100.000ns
+  Clock Path Skew:        -4.365ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    0.000ns = ( 21276.000 - 21276.000 ) 
+    Source Clock Delay      (SCD):    4.365ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+                         propagated clock network latency
+                                                      4.365     4.365    
+    SLICE_X13Y16         FDRE                         0.000     4.365 r  acc_pipe_reg[101][63]/C
+    SLICE_X13Y16         FDRE (Prop_fdre_C_Q)         0.269     4.634 r  acc_pipe_reg[101][63]/Q
+                         net (fo=1, routed)           3.312     7.946    dout_OBUF[31]
+    E22                  OBUF (Prop_obuf_I_O)         2.512    10.458 r  dout_OBUF[63]_inst/O
+                         net (fo=0)                   0.000    10.458    dout[63]
+    E22                                                               r  dout[63] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)    21276.000 21276.000 r  
+                         propagated clock network latency
+                                                      0.000 21276.000    
+                         clock pessimism              0.000 21276.000    
+                         clock uncertainty           -0.035 21275.965    
+                         output delay              -100.000 21175.965    
+  -------------------------------------------------------------------
+                         required time                      21175.965    
+                         arrival time                         -10.458    
+  -------------------------------------------------------------------
+                         slack                              21165.508  
