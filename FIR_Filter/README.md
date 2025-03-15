@@ -334,7 +334,7 @@ To build the three-parallel pipelined FIR filter, I simply duplicated the pipeli
 
 ### Behavioral Simulation
 Again, the simulation results match MATLAB.
-| ![](Three_Parallel_Filter/Vivado/Waveform.png) |
+| ![](Three_Parallel_Filter_Pipelined_Filter/Vivado/Waveform.png) |
 |:--:|
 | *Figure 21: Vivado simulation results* |
 </center>
@@ -386,7 +386,7 @@ We can again observe:
 We can again check the highest logical delay from the design. This time, we again see that the highest critical path is what we expect: one adder and one multiplier between the delay buffer and the pipeline.
 <center>
 
-| ![](Three_Parallel_Filter_Pipelined/Vivado/Logic.png) |
+| ![](Three_Parallel_Filter_Pipelined_Filter/Vivado/Logic.png) |
 |:--:|
 | *Figure 22: Logic delay* |
 </center>
@@ -394,7 +394,7 @@ We can again check the highest logical delay from the design. This time, we agai
 
 <center>
 
-| ![](Three_Parallel_Filter_Pipelined/Vivado/Critical_Path.png) |
+| ![](Three_Parallel_Filter_Pipelined_Filter/Vivado/Critical_Path.png) |
 |:--:|
 | *Figure 23: Critical path of circuit (white)* |
 </center>
@@ -403,7 +403,7 @@ We can again check the highest logical delay from the design. This time, we agai
 ### Utilization and Power
 <center>
 
-| ![](Three_Parallel_Filter_Pipelined/Vivado/Util_and_Power.png) |
+| ![](Three_Parallel_Filter_Pipelined_Filter/Vivado/Util_and_Power.png) |
 |:--:|
 | *Figure 24: Post-implementation utilization and power* |
 </center>
@@ -414,7 +414,9 @@ We can again check the highest logical delay from the design. This time, we agai
 - Using 64 bits prevented overflow, but is definitely overkill. Area and power could be further optimized by reducing the extra bits allocated for pipeline calculations.
 - Using a pipelined fast three-parallel FIR filter would be more effective than my implementation, which instead is comprised of three regular pipelined FIR filters.
 - The leftmost cut in my pipelined FIR filter is unneeded, and could be removed.
-- A smaller, more efficient FPGA board could have been chosen.
+- A smaller, more efficient FPGA board could have been chosen. This is especially relevant since in the highest slack paths, around 75% of latency was caused by signal propagation time, not logic delay.
+
+
 
 
 - Compare frequencies, outputs, productivity
