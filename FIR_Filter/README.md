@@ -1,9 +1,9 @@
 # Pipelined FIR Filter Optimization Project
 
 ## Highlights
-- Designed 4 FIR filters using SystemVerilog using parallelism and pipelining
-- Simulated and synthesized filters in Vivado to perform power and area analysis
-- Used MATLAB filterDesigner to acquire filter coefficients
+- Designed four FIR filters using SystemVerilog using parallelism and pipelining techniques.
+- Simulated and synthesized filters in Vivado to perform power and area analysis.
+- Used MATLAB filterDesigner to acquire filter coefficients.
 
 ## MATLAB Filter Design
 The goal of the project was to design a 102-tap low-pass filter with the transition region of 0.2pi-0.23pi radians/sample and stopband attenuation of at least 80dB. To acquire the coefficients, I used the MATLAB Filter Designer Tool, which can be launched in MATLAB with the command `filterDesigner`. Then, we construct the filter as shown below.
