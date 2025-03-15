@@ -8,7 +8,7 @@ module Three_Parallel_Pipelined (
 );
     localparam int TAPS = 102;
 
-    logic signed [31:0] coef [TAPS-1:0] = '{
+    localparam logic signed [31:0] coef [TAPS-1:0] = '{
         32'b11111111111110000101000100011100,
         32'b11111111111000110010100001001110,
         32'b11111111101101000000010001110011,
@@ -113,7 +113,6 @@ module Three_Parallel_Pipelined (
         32'b11111111111110000101000100011100
     };
 
-
     logic signed [15:0] delay_line [(TAPS-1)*2-1:0]; // Delay line for input samples
     logic signed [63:0] acc_pipe [TAPS-1:0]; // Pipeline registers for accumulation
 
@@ -140,6 +139,6 @@ module Three_Parallel_Pipelined (
         end
     end
 
-   assign dout = acc_pipe[TAPS-1] >>> 32;
+   assign dout = acc_pipe[TAPS-1] >>> 31;
 
 endmodule

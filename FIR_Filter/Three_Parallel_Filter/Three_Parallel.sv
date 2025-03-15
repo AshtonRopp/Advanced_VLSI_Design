@@ -23,7 +23,7 @@ module Three_Parallel (
     logic signed [31:0] H1 [TAPS/3-1:0];
     logic signed [31:0] H2 [TAPS/3-1:0];
 
-    logic signed [31:0] coef [TAPS-1:0] = '{
+    localparam logic signed [31:0] coef [TAPS-1:0] = '{
             32'b11111111111110000101000100011100,
             32'b11111111111000110010100001001110,
             32'b11111111101101000000010001110011,
@@ -138,20 +138,6 @@ module Three_Parallel (
     assign add_h012_min_add_h01_min_h1 = sum_h012 - add_h01_min_h1;
     assign add_h0_min_sum_h2_reg = sum_h0 - sum_h2_reg;
 
-    // Read coefficients from file
-    always_comb begin
-        for (int i = 0; 3*i < TAPS; i++) begin
-            H0[i] = coef[3*i];
-            
-            if (3*i+1 < TAPS) begin
-                H1[i] = coef[3*i+1];
-            end
-            if (3*i+2 < TAPS) begin
-                H2[i] = coef[3*i+2];
-            end
-        end
-    end
-
     // Process inputs
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
@@ -188,13 +174,13 @@ module Three_Parallel (
         sum_h012 = 0;
 
         for (int i = 0; i <= TAPS/3-1; i++) begin
-            sum_h0 += buffer0[i] * H0[i];
-            sum_h1 += buffer1[i] * H1[i];
-            sum_h2 += buffer2[i] * H2[i];
+            sum_h0 += buffer0[i] * coef[3*i];
+            sum_h1 += buffer1[i] * coef[3*i+1];
+            sum_h2 += buffer2[i] * coef[3*i+2];
 
-            sum_h01  += (buffer0[i] + buffer1[i])*(H0[i] + H1[i]);
-            sum_h12  += (buffer1[i] + buffer2[i])*(H1[i] + H2[i]);
-            sum_h012 += (buffer0[i] + buffer1[i] + buffer2[i])*(H0[i] + H1[i] + H2[i]);
+            sum_h01  += (buffer0[i] + buffer1[i])*(coef[3*i] + coef[3*i+1]);
+            sum_h12  += (buffer1[i] + buffer2[i])*(coef[3*i+1] + coef[3*i+2]);
+            sum_h012 += (buffer0[i] + buffer1[i] + buffer2[i])*(coef[3*i] + coef[3*i+1] + coef[3*i+2]);
         end
     end
 
