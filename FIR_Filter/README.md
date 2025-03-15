@@ -344,21 +344,20 @@ We again perform timing analysis to determine the critical path.
 
     Timing Report
 
-    Slack (MET) :             21146.637ns  (required time - arrival time)
-    Source:                 buffer1_reg[28][3]/C
-                                (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@10638.000ns period=21276.000ns})
-    Destination:            dout3[53]
+    Slack (MET) :             21169.904ns  (required time - arrival time)
+    Source:                 F2/acc_pipe_reg[101][53]/C
+                                (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@10638.000ns period=21276.000ns})
+    Destination:            dout2[22]
                                 (output port clocked by clk  {rise@0.000ns fall@10638.000ns period=21276.000ns})
     Path Group:             clk
     Path Type:              Max at Slow Process Corner
     Requirement:            21276.000ns  (clk rise@21276.000ns - clk rise@0.000ns)
-    Data Path Delay:        26.527ns  (logic 6.581ns (24.811%)  route 19.945ns (75.189%))
-    Logic Levels:           41  (CARRY8=16 DSP_A_B_DATA=1 DSP_ALU=1 DSP_M_DATA=1 DSP_MULTIPLIER=1 DSP_OUTPUT=1 DSP_PREADD_DATA=1 LUT3=9 LUT4=5 LUT5=2 LUT6=2 OBUF=1)
+    Data Path Delay:        3.092ns  (logic 1.081ns (34.953%)  route 2.011ns (65.047%))
+    Logic Levels:           1  (OBUF=1)
     Output Delay:           100.000ns
-    Clock Path Skew:        -2.803ns (DCD - SCD + CPR)
-        Destination Clock Delay (DCD):    0.000ns
-         = ( 21276.000 - 21276.000 ) 
-        Source Clock Delay      (SCD):    2.803ns
+    Clock Path Skew:        -2.969ns (DCD - SCD + CPR)
+        Destination Clock Delay (DCD):    0.000ns = ( 21276.000 - 21276.000 ) 
+        Source Clock Delay      (SCD):    2.969ns
         Clock Pessimism Removal (CPR):    0.000ns
     Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
         Total System Jitter     (TSJ):    0.071ns
@@ -408,8 +407,16 @@ We can again check the highest logical delay from the design. This time, we agai
 | *Figure 24: Post-implementation utilization and power* |
 </center>
 
+### Conclusion
+| Filter Type                | Slack (ns)  | Logic Delay (ns) | LUT Cells | FF Cells | DSP Cells | IO Cells | Total Cells | Dynamic Power (W) | Static Power (W) |
+|----------------------------|------------|------------------|-----------|----------|-----------|----------|-------------|-------------------|------------------|
+| Pipelined                  | 21170.736   | 2.529            | 6380      | 9418     | 102       | 82       | 15982       | 0.019             | 2.945            |
+| Two-Parallel               | 21152.850   | 5.761            | 5378      | 1696     | 153       | 162      | 7390        | 0.037             | 2.945            |
+| Three-Parallel             | 21146.637   | 6.627            | 10484     | 1760     | 525       | 242      | 13011       | 0.056             | 2.945            |
+| Three-Parallel Pipelined   | 21169.904   | 2.500              | 19140     | 28254    | 306       | 242      | 47942       | 0.056             | 2.945            |
 
-## Conclusions
+
+## Future Work
 - To avoid the oscillation in the passband, potentially more filter taps could be added.
 - Using 64 bits prevented overflow, but is definitely overkill. Area and power could be further optimized by reducing the extra bits allocated for pipeline calculations.
 - Using a pipelined fast three-parallel FIR filter would be more effective than my implementation, which instead is comprised of three regular pipelined FIR filters.
@@ -420,13 +427,6 @@ We can again check the highest logical delay from the design. This time, we agai
 
 
 - Compare frequencies, outputs, productivity
-
-
-
-
-## MATLAB Library Requirements
-- Signal Processing Toolbox
-- Fixed-Point Designer Toolbox
 
 
 ## References
