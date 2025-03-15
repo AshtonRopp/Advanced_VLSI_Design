@@ -407,27 +407,26 @@ We can again check the highest logical delay from the design. This time, we agai
 | *Figure 24: Post-implementation utilization and power* |
 </center>
 
-### Conclusion
+## Conclusions
 | Filter Type                | Slack (ns)  | Logic Delay (ns) | LUT Cells | FF Cells | DSP Cells | IO Cells | Total Cells | Dynamic Power (W) | Static Power (W) |
 |----------------------------|------------|------------------|-----------|----------|-----------|----------|-------------|-------------------|------------------|
 | Pipelined                  | 21170.736   | 2.529            | 6380      | 9418     | 102       | 82       | 15982       | 0.019             | 2.945            |
 | Two-Parallel               | 21152.850   | 5.761            | 5378      | 1696     | 153       | 162      | 7390        | 0.037             | 2.945            |
 | Three-Parallel             | 21146.637   | 6.627            | 10484     | 1760     | 525       | 242      | 13011       | 0.056             | 2.945            |
-| Three-Parallel Pipelined   | 21169.904   | 2.500              | 19140     | 28254    | 306       | 242      | 47942       | 0.056             | 2.945            |
+| Three-Parallel Pipelined   | 21169.904   | 2.500            | 19140     | 28254    | 306       | 242      | 47942       | 0.056             | 2.945            |
+
+1. Three-Parallel Pipelined is the absolute best choice for performance. It has the highest output per cycle (3) and the lowest logic delay (2.5). This means it could have both the highest theoretical clock speed and output per cycle.
+2. Three-Parallel Pipelined costs the most, in terms of cells. Therefore, if high clock speed is not desirable, the optimal design is Three-Parallel.
+3. All implementations had the same amount of static power usage and thus overall power usage. I believe that the static power number is due to all four being based on a board which dwarfs the actual resources needed. If a smaller board was used, I would expect the static power usage to be lower and varied amongst the implementations.
+4. The dynamic power appears to be equivalent to 0.019 W * (the number of outputs). This is another design trade-off.
 
 
 ## Future Work
-- To avoid the oscillation in the passband, potentially more filter taps could be added.
-- Using 64 bits prevented overflow, but is definitely overkill. Area and power could be further optimized by reducing the extra bits allocated for pipeline calculations.
+- Using 64 bits prevented overflow, but is definitely overkill. Area and power usage could be significantly reduced by reducing the extra bits allocated for pipeline calculations.
+- To reduce the "ripple" in the passband, more filter taps could be added.
 - Using a pipelined fast three-parallel FIR filter would be more effective than my implementation, which instead is comprised of three regular pipelined FIR filters.
 - The leftmost cut in my pipelined FIR filter is unneeded, and could be removed.
 - A smaller, more efficient FPGA board could have been chosen. This is especially relevant since in the highest slack paths, around 75% of latency was caused by signal propagation time, not logic delay.
-
-
-
-
-- Compare frequencies, outputs, productivity
-
 
 ## References
 [1] https://people.ece.umn.edu/users/parhi/SLIDES/chap9.pdf

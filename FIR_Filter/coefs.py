@@ -1,3 +1,5 @@
+# Converts MATLAB signed decimal coefficients to signed binary
+
 def int_to_signed_binary(num, bits=32):
     # Handle the case for negative numbers by converting them to two's complement
     if num < 0:

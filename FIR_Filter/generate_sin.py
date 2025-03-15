@@ -1,3 +1,5 @@
+# Generates input data
+
 import math
 import numpy as np
 
