@@ -369,24 +369,24 @@ We again perform timing analysis to determine the critical path.
     -------------------------------------------------------------------    -------------------
                             (clock clk rise edge)    21276.000 21276.000 r  
                             propagated clock network latency
-                                                         0.000 21276.000    
+                                                        0.000 21276.000    
                             clock pessimism              0.000 21276.000    
                             clock uncertainty           -0.035 21275.965    
                             output delay              -100.000 21175.965    
     -------------------------------------------------------------------
                             required time                      21175.965    
-                            arrival time                         -29.330    
+                            arrival time                          -6.060    
     -------------------------------------------------------------------
-                            slack                              21146.637
+                            slack                              21169.904  
 
 We can again observe:
 1. Most of the delay comes from the path, not the logic.
 2. The high slack indicates that the clock could run much faster.
 
-We can again check the highest logical delay from the design.
+We can again check the highest logical delay from the design. This time, we again see that the highest critical path is what we expect: one adder and one multiplier between the delay buffer and the pipeline.
 <center>
 
-| ![](Three_Parallel_Filter/Vivado/Logic.png) |
+| ![](Three_Parallel_Filter_Pipelined/Vivado/Logic.png) |
 |:--:|
 | *Figure 22: Logic delay* |
 </center>
@@ -394,24 +394,19 @@ We can again check the highest logical delay from the design.
 
 <center>
 
-| ![](Three_Parallel_Filter/Vivado/Critical_Path.png) |
+| ![](Three_Parallel_Filter_Pipelined/Vivado/Critical_Path.png) |
 |:--:|
-| *Figure 23: Critical path of circuit (orange)* |
+| *Figure 23: Critical path of circuit (white)* |
 </center>
 
 
 ### Utilization and Power
 <center>
 
-| ![](Three_Parallel_Filter/Vivado/Util_and_Power.png) |
+| ![](Three_Parallel_Filter_Pipelined/Vivado/Util_and_Power.png) |
 |:--:|
 | *Figure 24: Post-implementation utilization and power* |
 </center>
-
-
-
-
-
 
 
 ## Conclusions
@@ -434,8 +429,3 @@ We can again check the highest logical delay from the design.
 
 ## References
 [1] https://people.ece.umn.edu/users/parhi/SLIDES/chap9.pdf
-
-
-# TODO
-- For regular pipelined, fix shifting error.
-- Also first delay line cut is irrelevant.
